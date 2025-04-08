@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %} {% block title %}Ingredient{% endblock %} {%
+    block body %}
+    
+    <div class="col py-3">
+        <br>
+        {{ form_start(form) }}
+
+            {{ form_row(form.title) }}
+            {{ form_row(form.duration) }}
+            {{ form_row(form.numberPers) }}
+            {# {{ form_row(form.recipes) }} #}
+
+            <button type="submit">Soumettre</button>
+
+        {{ form_end(form) }}
+    </div>
+    </div>
+    </div>
