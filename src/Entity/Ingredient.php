@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Ingredient
 {
     #[ORM\Id]
@@ -32,6 +33,12 @@ class Ingredient
      */
     #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'ingredient')]
     private Collection $media;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $foronepers = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $unity = null;
 
     public function __construct()
     {
@@ -123,5 +130,35 @@ class Ingredient
         }
 
         return $this;
+    }
+
+    public function getForonepers(): ?int
+    {
+        return $this->foronepers;
+    }
+
+    public function setForonepers(?int $foronepers): static
+    {
+        $this->foronepers = $foronepers;
+
+        return $this;
+    }
+
+    public function getUnity(): ?string
+    {
+        return $this->unity;
+    }
+
+    public function setUnity(?string $unity): static
+    {
+        $this->unity = $unity;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 }

@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+      <div
+        class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100"
+      >
+        <ul class="collapse show nav flex-column ms-1">
+          <li class="w-100">Fonctions</li>
+          {% if app.user %} {% if app.user.roles[0] == "ROLE_ADMIN" %}
+          <li class="w-100">
+            <a
+              href="{{ path('ingredient_add') }}"
+              class="nav-link px-0"
+              target="_blank"
+              >Ajouter un ingédient</a
+            >
+          </li>
+          {% endif %} {% if app.user.roles[0] == "ROLE_ADMIN" or
+          app.user.roles[0] == "ROLE_USER" %}
+          <li class="w-100">
+            <a
+              href="{{ path('ingredient_show') }}"
+              class="nav-link px-0"
+              target="_blank"
+              >Voir les ingrédients disponible</a
+            >
+          </li>
+          {% endif %} {% endif %}
+        </ul>
+      </div>
+    </div>
+    {#
+  </div>
+</div>
+#}

@@ -27,6 +27,10 @@
           <p class="nav-link active" aria-current="page">{{ app.user.email }}</p>
         </li>
         <li class="nav-item">
+          <a class="nav-link active"
+          aria-current="page" href="{{ path('register_edit', {id:app.user.id}) }}" target="_blank">Modifier son profil</a>
+        </li>
+        <li class="nav-item">
           <a
             class="nav-link active"
             aria-current="page"

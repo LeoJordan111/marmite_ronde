@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %} {% block title %}Inscription{% endblock %} {%
 block body %}
-<h1>Inscription</h1>
 
+<div class="col py-3">
+  
+<h1>Inscription</h1>
+<br>
 {{ form_errors(registrationForm) }}
 
 {{ form_start(registrationForm) }}
@@ -11,8 +14,15 @@ block body %}
     label: "Password"
   })
 }}
-{{ form_row(registrationForm.agreeTerms) }}
 
-<button type="submit" class="btn">S'inscrire</button>
+{{ form_row(registrationForm.firstname) }}
+{{ form_row(registrationForm.lastname) }}
+{{ form_row(registrationForm.birthedAt) }}
+
+{{ form_row(registrationForm.agreeTerms) }}
+<button type="submit">S'inscrire</button>
 {{ form_end(registrationForm) }}
+</div>
+</div>
+</div>
 {% endblock %}

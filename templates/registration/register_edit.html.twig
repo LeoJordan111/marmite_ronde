@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %} {% block title %}Modifier son profil{% endblock %} {%
+    block body %}
+    
+    <div class="col py-3">
+      
+    <h1>Modification profil</h1>
+    <br>
+    {{ form_errors(registrationForm) }}
+    
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.email) }}
+
+    
+    {{ form_row(registrationForm.firstname) }}
+    {{ form_row(registrationForm.lastname) }}
+    {{ form_row(registrationForm.birthedAt) }}
+    
+    <button type="submit">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+    </div>
+    </div>
+    </div>
+    {% endblock %}
