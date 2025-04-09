@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Recipe;
 use App\Entity\Comment;
-use App\Entity\User;
 use App\Form\RecipeType;
 use App\Form\CommentType;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserRepository;
+use App\Repository\RecipeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,7 +31,7 @@ final class RecipeController extends AbstractController
         int $id,
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
-        request $request
+        request $request,
     ): Response
     {
 
@@ -53,12 +54,16 @@ final class RecipeController extends AbstractController
         ]);
     }
 
-    #[Route('/show', name: 'recipe_show')]
+    #[Route('/show/{id}', name: 'recipe_show')]
     public function recipeShow(
+        int $id,
+        RecipeRepository $recipeRepository,
         EntityManagerInterface $entityManager,
         request $request
     ): Response
     {
+
+        $recipe = $recipeRepository->find($id);
 
         $comment = new Comment();
 
@@ -74,6 +79,7 @@ final class RecipeController extends AbstractController
         return $this->render('recipe/recipe_show.html.twig', [
             'controller_name' => 'RecipeController',
             'form' => $form->createView(),
+            'recipe' => $recipe,
         ]);
     }
 }

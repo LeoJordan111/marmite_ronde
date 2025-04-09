@@ -25,10 +25,10 @@ class CommentType extends AbstractType
                 'label' => "Commentaire :",
                 'required' => true,
             ])
-            ->add('recipe', EntityType::class, [
-                'class' => Recipe::class,
-                'choice_label' => 'title',
-            ])
+            // ->add('recipe', EntityType::class, [
+            //     'class' => Recipe::class,
+            //     'choice_label' => 'title',
+            // ])
         ;
     }
 

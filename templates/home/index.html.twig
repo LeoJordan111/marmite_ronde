@@ -5,12 +5,33 @@
   <div class="col py-3">
   <h1>Hello Marmite ronde</h1>
 
-  <ul>
-    <li>Recipe 1</li>
-    <li>Recipe 2</li>
-    <li><a class="nav-link active"
-      aria-current="page" href="{{ path('recipe_show')}}" target="_blank">Test voir une recette</a></li>
-  </ul>
+  <br />
+<div class="container-fluid">
+  <div class="row">
+    {% for recipe in recipes %}
+    <div class="col-lg-4 col-md-6">
+      <div class="card">
+        <img src="" alt="" />
+        <div class="card-body">
+          <h2 class="card-text">
+            {{ recipe.title }}
+          </h2>
+          <p class="card-text">
+            {{ recipe.difficulty.label }}
+          </p>
+          <a
+            href="{{ path('recipe_show', { id: recipe.id }) }}"
+            class="btn btn-primary"
+            target="_blank"
+            >Voir la recette</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
 </div>
 </div>
 </div>

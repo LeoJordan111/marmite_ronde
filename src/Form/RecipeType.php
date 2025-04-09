@@ -38,7 +38,7 @@ class RecipeType extends AbstractType
                 'label' => 'Nombre de personne :',
             ])
             ->add('content', TextareaType::class, [
-                'label' => "Titre de votre recette :",
+                'label' => "Ecrivez votre recette :",
                 'required' => true,
             ])
             ->add('ingredient', EntityType::class, [
