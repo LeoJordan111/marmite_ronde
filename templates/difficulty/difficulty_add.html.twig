@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %} {% block title %}Difficulté{% endblock %} {%
+    block body %}
+    
+    <div class="col py-3">
+        <br>
+        {{ form_start(form) }}
+
+            {{ form_row(form.label) }}
+
+            <button type="submit">Soumettre</button>
+
+        {{ form_end(form) }}
+    </div>
+    </div>
+    </div>
+    
+    {% endblock %}

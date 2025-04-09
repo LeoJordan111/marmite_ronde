@@ -6,7 +6,7 @@
       >
         <ul class="collapse show nav flex-column ms-1">
           <li class="w-100">Fonctions</li>
-          {% if app.user %} {% if app.user.roles[0] == "ROLE_ADMIN" %}
+          {% if app.user %} {% if is_granted("ROLE_ADMIN") %}
           <li class="w-100">
             <a
               href="{{ path('ingredient_add') }}"
@@ -15,8 +15,15 @@
               >Ajouter un ingédient</a
             >
           </li>
-          {% endif %} {% if app.user.roles[0] == "ROLE_ADMIN" or
-          app.user.roles[0] == "ROLE_USER" %}
+          <li class="w-100">
+            <a
+              href="{{ path('difficulty_add') }}"
+              class="nav-link px-0"
+              target="_blank"
+              >Ajouter une difficulté</a
+            >
+          </li>
+          {% endif %}
           <li class="w-100">
             <a
               href="{{ path('ingredient_show') }}"
@@ -25,7 +32,15 @@
               >Voir les ingrédients disponible</a
             >
           </li>
-          {% endif %} {% endif %}
+          <li class="w-100">
+            <a
+              href="{{ path('recipe_add', { id: app.user.id }) }}"
+              class="nav-link px-0"
+              target="_blank"
+              >Ajouter une recette</a
+            >
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>

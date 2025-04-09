@@ -8,6 +8,15 @@
         <li>recette 1</li>
         <li>recette 2</li>
       </ul>
+      <br>
+      {{ form_start(form) }}
+
+        {{ form_row(form.content) }}
+        {{ form_row(form.recipe) }}
+      
+        <button type="submit">Soumettre</button>
+
+      {{ form_end(form) }}
     </div>
     </div>
     </div>

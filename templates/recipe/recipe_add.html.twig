@@ -8,11 +8,15 @@
             {{ form_row(form.title) }}
             {{ form_row(form.duration) }}
             {{ form_row(form.numberPers) }}
-            {# {{ form_row(form.recipes) }} #}
-
+            {{ form_row(form.difficulty) }}
+            {{ form_row(form.ingredient) }}
+            {{ form_row(form.content) }}
+           
             <button type="submit">Soumettre</button>
 
         {{ form_end(form) }}
     </div>
     </div>
     </div>
+
+    {% endblock %}

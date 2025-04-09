@@ -59,6 +59,12 @@ class Recipe
     #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'recipe')]
     private Collection $media;
 
+    #[ORM\ManyToOne(inversedBy: 'recipe')]
+    private ?Difficulty $difficulty = null;
+
+    #[ORM\ManyToOne(inversedBy: 'recipes')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->ingredient = new ArrayCollection();
@@ -256,5 +262,29 @@ class Recipe
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getDifficulty(): ?Difficulty
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty(?Difficulty $difficulty): static
+    {
+        $this->difficulty = $difficulty;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
