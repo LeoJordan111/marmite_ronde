@@ -8,6 +8,7 @@ use App\Entity\Ingredient;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
@@ -25,14 +26,14 @@ class MediaType extends AbstractType
                 'required' => false,
                 'mapped' => false,
             ])
-            ->add('recipe', EntityType::class, [
-                'class' => Recipe::class,
-                'choice_label' => 'title',
-            ])
-            ->add('ingredient', EntityType::class, [
-                'class' => Ingredient::class,
-                'choice_label' => 'label',
-            ])
+            // ->add('recipe', EntityType::class, [
+            //     'class' => Recipe::class,
+            //     'choice_label' => 'title',
+            // ])
+            // ->add('ingredient', EntityType::class, [
+            //     'class' => Ingredient::class,
+            //     'choice_label' => 'label',
+            // ])
         ;
     }
 

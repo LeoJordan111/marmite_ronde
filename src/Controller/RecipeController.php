@@ -36,6 +36,7 @@ final class RecipeController extends AbstractController
     {
 
         $user = $userRepository->find($id);
+        // dd($this->getUser());
 
         $recipe = new Recipe();
         $form = $this->createForm(RecipeType::class, $recipe);
@@ -54,16 +55,40 @@ final class RecipeController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{id}', name: 'recipe_show')]
-    public function recipeShow(
+    #[Route('/edit/{id}', name: 'recipe_edit')]
+    public function recipeEdit(
         int $id,
         RecipeRepository $recipeRepository,
         EntityManagerInterface $entityManager,
-        request $request
+        request $request,
     ): Response
     {
 
         $recipe = $recipeRepository->find($id);
+        // dd($recipe);
+
+        $form = $this->createForm(RecipeType::class, $recipe);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($recipe);
+            $entityManager->flush();
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('recipe/recipe_edit.html.twig', [
+            'controller_name' => 'RecipeController',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/show/{id}', name: 'recipe_show')]
+    public function recipeShow(
+        Recipe $recipe, 
+        EntityManagerInterface $entityManager,
+        request $request
+    ): Response
+    {
 
         $comment = new Comment();
 
@@ -80,6 +105,25 @@ final class RecipeController extends AbstractController
             'controller_name' => 'RecipeController',
             'form' => $form->createView(),
             'recipe' => $recipe,
+        ]);
+    }
+
+    #[Route('/showbyuser/{id}', name: 'recipe_showbyuser')]
+    public function recipeShowbyUser(
+        int $id,
+        RecipeRepository $recipeRepository,
+        Recipe $recipe,
+        EntityManagerInterface $entityManager,
+        request $request
+    ): Response
+    {
+       $recipes = $recipeRepository->findBy([
+            'user' => $id,
+        ]);       
+
+        return $this->render('recipe/recipe_showbyuser.html.twig', [
+            'controller_name' => 'RecipeController',
+            'recipes' => $recipes,
         ]);
     }
 }

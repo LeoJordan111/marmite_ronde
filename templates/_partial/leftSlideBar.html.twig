@@ -40,6 +40,14 @@
               >Ajouter une recette</a
             >
           </li>
+          <li class="w-100">
+            <a
+              href="{{ path('recipe_showbyuser', { id: app.user.id }) }}"
+              class="nav-link px-0"
+              target="_blank"
+              >Voir mes recettes</a
+            >
+          </li>
           {% endif %}
         </ul>
       </div>

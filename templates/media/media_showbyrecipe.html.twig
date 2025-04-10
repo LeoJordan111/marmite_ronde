@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %} {% block title %}Mes images de la recette{% endblock
+    %} {% block body %}
+    
+    
+      <div class="col py-3">
+      <h1>Mes images de la recette</h1>
+    
+      <br />
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            {% for image in media %}
+              <img src="{{ asset('./uploads/images/' ~ image.path) }}" alt="{{ image.title }}" />
+            {% endfor %}
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+    </div>
+    </div>
+    {% endblock %}

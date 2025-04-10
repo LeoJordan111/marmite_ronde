@@ -7,7 +7,12 @@
 <div class="row">
   <div class="col-lg-4 col-md-6" style="margin-bottom: 10px">
     <div class="card">
-      <img src="" />
+      {% for image in recipe.media %}
+          <img src="{{ asset('./uploads/images/' ~ image.path) }}" alt="{{ image.title }}" />
+        {% else %}
+        TODO empty image
+          <img src="" alt="" />
+        {% endfor %}
       <div class="card-body">
         <p class="card-text">
           {{ recipe.difficulty.label }}
@@ -25,11 +30,31 @@
     </div>
   </div>
 </div>
+
+{% if recipe.user.id == app.user.id %}
+<a
+href="{{ path('media_add', { id: recipe.id }) }}"
+class="btn btn-primary"
+target="_blank"
+>Importer une image à ma recette</a
+><br><br>
+<a
+href="{{ path('media_showbyrecipe', { id: recipe.id }) }}"
+class="btn btn-primary"
+target="_blank"
+>Voir les images de ma recette</a
+><br><br>
+<a
+href="{{ path('recipe_edit', { id: recipe.id }) }}"
+class="btn btn-primary"
+target="_blank"
+>Modifier ma recette</a
+>
+{% endif %}
       <br>
       {{ form_start(form) }}
 
         {{ form_row(form.content) }}
-        {{ form_row(form.recipe) }}
       
         <button type="submit">Soumettre</button>
 

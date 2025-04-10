@@ -15,6 +15,7 @@ class Recipe
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    // #[Groups(['recipe_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -262,6 +263,12 @@ class Recipe
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(): void
+    {
+        $this->updateAt = new \DateTime();
     }
 
     public function getDifficulty(): ?Difficulty
