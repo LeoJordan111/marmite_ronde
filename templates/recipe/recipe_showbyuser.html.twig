@@ -14,8 +14,7 @@
             {% for image in recipe.media %}
               <img src="{{ asset('./uploads/images/' ~ image.path) }}" alt="{{ image.title }}" />
             {% else %}
-            TODO empty image
-              <img src="" alt="" />
+              <img src="{{ asset('./images/no_Image.png') }}" alt="" />
             {% endfor %}
             <div class="card-body">
               <h2 class="card-text">
