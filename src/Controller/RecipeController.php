@@ -90,15 +90,21 @@ final class RecipeController extends AbstractController
     ): Response
     {
 
+        //dd($recipe->getId());
         $comment = new Comment();
 
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $comment = $form->getData();
+            $comment->setRecipe($recipe);
+            $recipe->setUser($this->getUser());
             $entityManager->persist($comment);
             $entityManager->flush();
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('recipe_show', [
+                'id' => $recipe->getId(),
+            ]);
         }
 
         return $this->render('recipe/recipe_show.html.twig', [

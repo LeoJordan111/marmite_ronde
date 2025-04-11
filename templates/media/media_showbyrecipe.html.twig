@@ -8,12 +8,23 @@
       <br />
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-4 col-md-6">         
           <div class="card">
             {% for image in media %}
-              <img src="{{ asset('./uploads/images/' ~ image.path) }}" alt="{{ image.title }}" />
+            <img src="{{ asset('./uploads/images/' ~ image.path) }}" alt="{{ image.title }}" />
+              <div class="card-body">
+                
+                <a
+                href="{{ path('media_edit', { idrecipe: image.recipe.id, idmedia: image.id }) }}"
+                class="btn btn-primary"
+                target="_blank"
+                >Modifier l'image</a>
+                <a
+                href="{{ path('media_remove', { idrecipe: image.recipe.id, idmedia: image.id }) }}"
+                class="btn btn-primary"
+                >Supprimer l'image</a>
+              </div>
             {% endfor %}
-            
           </div>
         </div>
       </div>

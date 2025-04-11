@@ -45,33 +45,4 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/register/edit/{id}', name: 'register_edit')]
-    public function registerShow(
-        int $id,
-        Request $request, 
-        Security $security,
-        UserRepository $userRepository,
-        EntityManagerInterface $entityManager
-        ): Response
-    {
-        
-        $user = $userRepository->find($id);
-
-        $form = $this->createForm(ProfilType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-            return $this->redirectToRoute('home');
-            // do anything else you need here, like send an email
-
-            // return $security->login($user, AppCustomAuthenticator::class, 'main');
-        }
-
-        return $this->render('registration/register_edit.html.twig', [
-            'registrationForm' => $form,
-        ]);
-    }
 }

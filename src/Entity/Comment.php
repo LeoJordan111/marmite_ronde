@@ -85,4 +85,10 @@ class Comment
     {
         $this->createdAt = new \DateTimeImmutable();
     }
+    
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(): void
+    {
+        $this->updateAt = new \DateTime();
+    }
 }

@@ -26,9 +26,9 @@ final class MediaController extends AbstractController
         ]);
     }
 
-    #[Route('/add/{id}', name: 'media_add')]
+    #[Route('/add/{idrecipe}', name: 'media_add')]
     public function mediaAdd(
-        int $id,
+        int $idrecipe,
         RecipeRepository $recipeRepository,
         EntityManagerInterface $entityManager,
         request $request,
@@ -36,8 +36,9 @@ final class MediaController extends AbstractController
         #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory
     ): Response
     {
-        $recipe = $recipeRepository->find($id);
-        // dd($id);
+        $recipe = $recipeRepository->find($idrecipe);
+
+        $media = new Media();
 
         $form = $this->createForm(MediaType::class, $media);
         $form->handleRequest($request);
@@ -63,56 +64,6 @@ final class MediaController extends AbstractController
                 // instead of its contents
                 $media->setPath($newFilename);
             }
-            $entityManager->persist($media);
-            $entityManager->flush();
-            return $this->redirectToRoute('home');
-        }
-
-        return $this->render('media/media_add.html.twig', [
-            'controller_name' => 'MediaController',
-            'form' => $form->createView(),
-            'recipe' => $recipe
-        ]);
-    }
-
-    #[Route('/edit/{id}', name: 'media_edit')]
-    public function mediaEdit(
-        int $id,
-        RecipeRepository $recipeRepository,
-        EntityManagerInterface $entityManager,
-        request $request,
-        SluggerInterface $slugger,
-        #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory
-    ): Response
-    {
-        $recipe = $recipeRepository->find($id);
-        // dd('test');
-
-        $form = $this->createForm(MediaType::class, $media);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-            $imageFile = $form->get('path')->getData();
-
-            if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-
-                // Move the file to the directory where images are stored
-                try {
-                    $imageFile->move($imagesDirectory, $newFilename);
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'imageFilename' property to store the PDF file name
-                // instead of its contents
-                $media->setPath($newFilename);
-            }
-
             $media->setRecipe($recipe);
             $entityManager->persist($media);
             $entityManager->flush();
@@ -126,17 +77,92 @@ final class MediaController extends AbstractController
         ]);
     }
 
-    #[Route('/showbyrecipe/{id}', name: 'media_showbyrecipe')]
+    #[Route('/edit/{idrecipe}/{idmedia}', name: 'media_edit')]
+    public function mediaEdit(
+        int $idrecipe,
+        int $idmedia,
+        MediaRepository $mediaRepository,
+        EntityManagerInterface $entityManager,
+        request $request,
+        SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory
+    ): Response
+    {
+        $media = $mediaRepository->findOneBy([
+            'recipe' => $idrecipe,
+            'id' => $idmedia,
+        ]);
+
+        $form = $this->createForm(MediaType::class, $media);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $imageFile = $form->get('path')->getData();
+
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+                // Move the file to the directory where images are stored
+                try {
+                    $imageFile->move($imagesDirectory, $newFilename);
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'imageFilename' property to store the PDF file name
+                // instead of its contents
+                $media->setPath($newFilename);
+            }
+
+            $entityManager->persist($media);
+            $entityManager->flush();
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('media/media_edit.html.twig', [
+            'controller_name' => 'MediaController',
+            'form' => $form->createView(),
+            'media' => $media
+        ]);
+    }
+
+    #[Route('/remove/{idrecipe}/{idmedia}', name: 'media_remove')]
+    public function mediaReomve(
+        int $idrecipe,
+        int $idmedia,
+        MediaRepository $mediaRepository,
+        EntityManagerInterface $entityManager,
+    ): Response
+    {
+        $media = $mediaRepository->findOneBy([
+            'recipe' => $idrecipe,
+            'id' => $idmedia,
+        ]);
+        // dd($media);
+
+        $entityManager->remove($media);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
+    }
+
+    #[Route('/showbyrecipe/{idrecipe}', name: 'media_showbyrecipe')]
     public function recipeShowbyrecipe(
-        int $id,
+        int $idrecipe,
         MediaRepository $mediaRepository,
         EntityManagerInterface $entityManager,
         request $request
     ): Response
     {
        $media = $mediaRepository->findBy([
-            'recipe' => $id,
-        ]);      
+            'recipe' => $idrecipe,
+        ]);
+        
+        // dd($idrecipe);
 
         return $this->render('media/media_showbyrecipe.html.twig', [
             'controller_name' => 'RecipeController',

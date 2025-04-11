@@ -11,12 +11,11 @@
     {% for recipe in recipes %}
     <div class="col-lg-4 col-md-6">
       <div class="card">
-        {% for image in recipe.media %}
-          <img src="{{ asset('./uploads/images/' ~ image.path) }}" alt="{{ image.title }}" />
+        {% if not recipe.media is empty %}
+          <img src="{{ asset('./uploads/images/' ~ recipe.media[0].path) }}" alt="{{ recipe.media[0].title }}" />
         {% else %}
-        TODO empty image
-          <img src="" alt="" />
-        {% endfor %}
+          <img src="{{ asset('./images/no_Image.png') }}" alt="" />
+        {% endif %}
         <div class="card-body">
           <h2 class="card-text">
             {{ recipe.title }}
